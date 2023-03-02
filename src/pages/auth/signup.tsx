@@ -3,13 +3,13 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 export default function Signup() {
-  const [errors, setErrors] = useState<string[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setErrors(null);
+    setError(null);
     setIsSubmitting(true);
     setIsSuccess(false);
 
@@ -27,7 +27,7 @@ export default function Signup() {
 
     if (password !== password_confirmation) {
       setIsSubmitting(false);
-      setErrors(['Die Passwörter stimmen nicht überein.']);
+      setError('Die Passwörter stimmen nicht überein.');
       return;
     }
 
@@ -42,7 +42,7 @@ export default function Signup() {
     const data = await res.json();
 
     if (res.status !== 201) {
-      setErrors([data.msg])
+      setError(data.msg)
     } else {
       setIsSuccess(true);
     }
@@ -71,8 +71,8 @@ export default function Signup() {
             <label htmlFor="password" className="form-label">Passwort wiederholen</label>
             <input type="password" className="form-control" name="password_confirmation" id="password_confirmation" />
           </div>
-          { errors && 
-            errors.map((err, idx) => <p className="text-danger" key={idx}>{err}</p>)
+          { error && 
+            <p className="text-danger">{error}</p>
           }
           <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
             { isSubmitting && <Spinner /> } Registrieren
