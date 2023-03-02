@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+
+  # PostgreSQL
+  db:
+    image: postgres:15.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: babystats
+      POSTGRES_PASSWORD: babystats
+    ports:
+      - "5432:5432"
+
+  # pgadmin
+  pgadmin:
+    image: dpage/pgadmin4:6
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@babystats.de
+      PGADMIN_DEFAULT_PASSWORD: babystats
+    ports:
+      - "8080:80"
